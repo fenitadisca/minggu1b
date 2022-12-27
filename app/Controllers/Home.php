@@ -7,13 +7,19 @@ class Home extends BaseController
     public function index()
     {
         $data=[];
-        $themesName = $this->config->themesName;
-        $data ['THEMES_PAGE'] = base_url('themes/' .$themesName . '/');
-        $data['HEADER_SECTION'] = $this->parser->setData($data)->render('themes/' .$themesName . '/layout/header/header');
-        $data['HEADER_SECTION'] .= $this->parser->setData($data)->render('themes/' .$themesName . '/layout/header/slide');
-        $data['BODY_SECTION'] = $this->parser->setData($data)->render('themes/' .$themesName . '/layout/contents/body');
-        $data['FOOTER_SECTION'] = $this->parser->setData($data)->render('themes/' .$themesName . '/layout/footer/footer');
+        $params ['body'] = $this->parser->setData($data)->render('themes/' .$this->themesName . '/layout/contents/body');
+       echo $this->pageBuilder($params);
+    }
 
-        return $this->parser->setData($data)->render('themes/' .$themesName . '/layout/main_layout');
+    public function aboutUs() {
+        $data=[];
+        $params ['body'] = 'About Us';
+        echo $this->pageBuilder($params);
+    }
+
+    public function contactUs() {
+        $data=[];
+        $params ['body'] = 'Contact Us';
+        echo $this->pageBuilder($params);
     }
 }

@@ -50,5 +50,23 @@ abstract class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
         $this->parser = \Config\Services::parser();
         $this->config = config('BlogmeConfig');
+        $this->themesName = $this->config->themesName;
+
+    }
+
+    public function pageBuilder($params){
+        $data=[];
+        $themesName = $this->config->themesName;
+        $data ['PAGE_TITLE'] = $this->config->pageTitle;
+        $data ['siteName'] = $this->config->siteName;
+
+        $data ['SITE_URL'] = site_url();
+        $data ['THEMES_PAGE'] = base_url('themes/' .$themesName . '/');
+        $data['HEADER_SECTION'] = $this->parser->setData($data)->render('themes/' .$themesName . '/layout/header/header');
+        $data['HEADER_SECTION'] .= $this->parser->setData($data)->render('themes/' .$themesName . '/layout/header/slide');
+        $data['BODY_SECTION'] = $params['body'];
+        $data['FOOTER_SECTION'] = $this->parser->setData($data)->render('themes/' .$themesName . '/layout/footer/footer');
+
+        return $this->parser->setData($data)->render('themes/' .$themesName . '/layout/main_layout');
     }
 }
